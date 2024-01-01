@@ -30,3 +30,8 @@ class productoSerializer(ModelSerializer):
     class Meta:
         model = producto
         fields = '__all__'
+
+class publicacionesSerializer(ModelSerializer):
+    class Meta:
+        model = publicacion
+        fields = '__all__'

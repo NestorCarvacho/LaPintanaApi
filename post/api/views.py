@@ -25,3 +25,7 @@ class usuariosApiViewSet(ModelViewSet):
 class productoApiViewSet(ModelViewSet):
     serializer_class = productoSerializer
     queryset = producto.objects.all()
+    
+class publicacionApiViewSet(ModelViewSet):
+    serializer_class = publicacionesSerializer
+    queryset = publicacion.objects.all()

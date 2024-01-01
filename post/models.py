@@ -32,16 +32,26 @@ class usuario(models.Model):
     apellido_materno_usuario = models.CharField(max_length=80)
     nombre_fantasia_usuario = models.CharField(max_length=80)
     contrasena_usuario = models.CharField(max_length=80)
+    
+    def __str__(self):
+        return str(self.run_usuario) + '-' + self.dv_usuario
 
 class producto(models.Model):
     nombre_producto = models.CharField(max_length=80)
     precio_producto = models.IntegerField()
     descripcion_producto = models.TextField()
-    estado_producto = models.ForeignKey('Estado', related_name='productos', on_delete=models.CASCADE)
+    estado_producto = models.ForeignKey('Estado', related_name='producto', on_delete=models.CASCADE)
     categoria = models.ForeignKey('Categoria', related_name='productos', on_delete=models.CASCADE)
     TipoPublicacion = models.ForeignKey('TipoPublicacion', related_name='productos', on_delete=models.CASCADE)
     disponibilidad = models.ForeignKey('Disponibilidad', related_name='productos', on_delete=models.CASCADE)
         
     def __str__(self):
-        return self.nombre_producto + self.descripcion_estado
-        print(self.descripcion_estado)
+        return self.nombre_producto
+        
+class publicacion(models.Model):
+    fecha_publicacion = models.DateField()
+    producto = models.ForeignKey('Producto', related_name='publicaciones', on_delete=models.CASCADE)
+    usuario = models.ForeignKey('Usuario', related_name='publicaciones', on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return str(self.producto) + ' || ' +str(self.usuario)

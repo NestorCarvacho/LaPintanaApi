@@ -27,8 +27,8 @@ urlpatterns = [
                             path('disponibilidad/', include(router_disponibilidad.urls)),
                             path('usuarios/', include(router_usuarios.urls)),
                             path('productos/', include(router_productos.urls)),
+                            path('publicacion/', include(router_publicaciones.urls)),
                             
     ])),
-    path('productos/<int:producto_id>/', detalle_producto, name='detalle_producto'),
 ]
 

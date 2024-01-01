@@ -43,3 +43,10 @@ class productoAdmin(admin.ModelAdmin):
                     'categoria',
                     'TipoPublicacion',
                     'disponibilidad']
+
+@admin.register(publicacion)
+class publicacionAdmin(admin.ModelAdmin):
+    list_display = ['id',
+                    'fecha_publicacion',
+                    'producto',
+                    'usuario']
