@@ -16,19 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from post.views import *
+from post.api.views import *
 
 from post.api.router import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include([  path('estados/', include(router_estados.urls)),
-                            path('tipo-publicacion/', include(router_tipoPublicacion.urls)),
-                            path('categoria/', include(router_categoria.urls)),
-                            path('disponibilidad/', include(router_disponibilidad.urls)),
-                            path('usuarios/', include(router_usuarios.urls)),
-                            path('productos/', include(router_productos.urls)),
-                            path('publicacion/', include(router_publicaciones.urls)),
-                            
-    ])),
+    path('api/', include('post.urls')),
 ]
 

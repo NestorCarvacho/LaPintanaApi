@@ -5,6 +5,10 @@ from post.api.serializers import *
 class estadoApiViewSet(ModelViewSet):
     serializer_class = estadoSerializer
     queryset = estado.objects.all()
+    
+class estadoViewSet(ModelViewSet):
+    serializer_class = estadoSerializer
+    queryset = estado.objects.all()
 
 class categoriaApiViewSet(ModelViewSet):
     serializer_class = categoriaSerializer
