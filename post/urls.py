@@ -4,14 +4,16 @@ from post.api.views import *
 from post.api.serializers import *
 
 router = routers.DefaultRouter()
-router.register('estado', estadoApiViewSet)
-router.register('categoria', categoriaApiViewSet)
-router.register('disponibilidad', disponibilidadApiViewSet)
-router.register('tipoPublicacion', tipoPublicacionApiViewSet)
-router.register('usuarios', usuariosApiViewSet)
-router.register('productos', productoApiViewSet)
-router.register('publicaciones', publicacionApiViewSet)
+router.register('estado', EstadoApiViewSet)
+router.register('categoria', CategoriaApiViewSet)
+router.register('disponibilidad', DisponibilidadApiViewSet)
+router.register('tipoPublicacion', TipoPublicacionApiViewSet)
+router.register('usuarios', UsuariosApiViewSet)
+router.register('productos', ProductoApiViewSet)
+router.register('publicaciones', PublicacionApiViewSet)
+router.register('detallePublicacion', DetallePublicacionViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('detallePublicacionProducto', DetallePublicacion, name='detallePublicacionProducto')
 ]

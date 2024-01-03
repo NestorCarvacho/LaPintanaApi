@@ -4,11 +4,11 @@ from post.models import *
 
 # Register your models here.
 
-@admin.register(estado)
+@admin.register(Estado)
 class estadoAdmin(admin.ModelAdmin):
     list_display = ['descripcion_estado']
     
-@admin.register(categoria)
+@admin.register(Categoria)
 class categoriaAdmin(admin.ModelAdmin):
     list_display = ['descripcion_categoria']
     
@@ -16,11 +16,11 @@ class categoriaAdmin(admin.ModelAdmin):
 class TipoPublicacionAdmin(admin.ModelAdmin):
     list_display = ['descripcion_TipoPublicacion']
     
-@admin.register(disponibilidad)
+@admin.register(Disponibilidad)
 class disponibilidadAdmin(admin.ModelAdmin):
     list_display = ['descripcion_disponibilidad']
     
-@admin.register(usuario)
+@admin.register(Usuario)
 class usuarioAdmin(admin.ModelAdmin):
     list_display = ['run_usuario',
                     'dv_usuario',
@@ -34,7 +34,7 @@ class usuarioAdmin(admin.ModelAdmin):
                     'nombre_fantasia_usuario',
                     'contrasena_usuario']
 
-@admin.register(producto)
+@admin.register(Producto)
 class productoAdmin(admin.ModelAdmin):
     list_display = ['nombre_producto',
                     'precio_producto',
@@ -44,9 +44,9 @@ class productoAdmin(admin.ModelAdmin):
                     'TipoPublicacion',
                     'disponibilidad']
 
-@admin.register(publicacion)
+@admin.register(Publicacion)
 class publicacionAdmin(admin.ModelAdmin):
     list_display = ['id',
                     'fecha_publicacion',
-                    'producto',
+                    'Producto',
                     'usuario']

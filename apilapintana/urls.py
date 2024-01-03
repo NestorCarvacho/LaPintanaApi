@@ -21,6 +21,7 @@ from post.api.views import *
 from post.api.router import *
 
 urlpatterns = [
+    path('',include('post.urls')),
     path('admin/', admin.site.urls),
     path('api/', include('post.urls')),
 ]

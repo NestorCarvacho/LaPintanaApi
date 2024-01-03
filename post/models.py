@@ -1,12 +1,13 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.  
-class estado(models.Model):
+class Estado(models.Model):
     descripcion_estado = models.CharField(max_length=80)
     def __str__(self):
         return self.descripcion_estado
     
-class categoria(models.Model):
+class Categoria(models.Model):
     descripcion_categoria = models.CharField(max_length=80)
     def __str__(self):
         return self.descripcion_categoria
@@ -16,12 +17,12 @@ class TipoPublicacion(models.Model):
     def __str__(self):
         return self.descripcion_TipoPublicacion
     
-class disponibilidad(models.Model):
+class Disponibilidad(models.Model):
     descripcion_disponibilidad = models.CharField(max_length=80)
     def __str__(self):
         return self.descripcion_disponibilidad
     
-class usuario(models.Model):
+class Usuario(models.Model):
     run_usuario = models.IntegerField()
     dv_usuario = models.CharField(max_length=1)
     correo_usuario = models.CharField(max_length=80)
@@ -36,11 +37,11 @@ class usuario(models.Model):
     def __str__(self):
         return str(self.run_usuario) + '-' + self.dv_usuario
 
-class producto(models.Model):
+class Producto(models.Model):
     nombre_producto = models.CharField(max_length=80)
-    precio_producto = models.IntegerField()
+    precio_producto = models.DecimalField(max_digits=10, decimal_places=2)
     descripcion_producto = models.TextField()
-    estado_producto = models.ForeignKey('Estado', related_name='producto', on_delete=models.CASCADE)
+    estado_producto = models.ForeignKey('Estado', related_name='productos', on_delete=models.CASCADE)
     categoria = models.ForeignKey('Categoria', related_name='productos', on_delete=models.CASCADE)
     TipoPublicacion = models.ForeignKey('TipoPublicacion', related_name='productos', on_delete=models.CASCADE)
     disponibilidad = models.ForeignKey('Disponibilidad', related_name='productos', on_delete=models.CASCADE)
@@ -48,10 +49,10 @@ class producto(models.Model):
     def __str__(self):
         return self.nombre_producto
         
-class publicacion(models.Model):
-    fecha_publicacion = models.DateField()
-    producto = models.ForeignKey('Producto', related_name='publicaciones', on_delete=models.CASCADE)
+class Publicacion(models.Model):
+    fecha_publicacion = models.DateField(default=timezone.now().date)
+    Producto = models.ForeignKey('Producto', related_name='publicaciones', on_delete=models.CASCADE)
     usuario = models.ForeignKey('Usuario', related_name='publicaciones', on_delete=models.CASCADE)
     
     def __str__(self):
-        return str(self.producto) + ' || ' +str(self.usuario)
+        return f"{self.Producto} || {self.usuario}"
