@@ -41,3 +41,18 @@ def DetallePublicacion(request):
     publicaciones = Publicacion.objects.all()
     serializer = PublicacionSerializer(publicaciones, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def DetalleProducto(request):
+    productosDetalle = Producto.objects.all()
+    serializer = ProductoSerializer(productosDetalle, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def DetalleProducto2(request, id):
+    try:
+        producto = Producto.objects.get(id=id)
+        serializer = ProductoSerializer(producto)
+        return Response(serializer.data)
+    except Producto.DoesNotExist:
+        return Response({"error": "Producto not found"})

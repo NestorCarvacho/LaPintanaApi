@@ -15,5 +15,7 @@ router.register('detallePublicacion', DetallePublicacionViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('detallePublicacionProducto', DetallePublicacion, name='detallePublicacionProducto')
+    path('detallePublicacionProducto', DetallePublicacion, name='detallePublicacionProducto'),
+    path('detalleProducto', DetalleProducto, name='detalleProducto'),
+    path('detalleProducto/<int:id>', DetalleProducto2, name='detalleProducto'),
 ]

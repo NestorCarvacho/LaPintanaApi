@@ -9,6 +9,7 @@ router_usuarios = DefaultRouter()
 router_productos = DefaultRouter()
 router_publicaciones = DefaultRouter()
 router_detallePublicacion = DefaultRouter()
+router_DetallePublicacion = DefaultRouter()
 
 router_estados.register(prefix='estado', basename='estado', viewset=EstadoApiViewSet)
 router_categoria.register(prefix='categoria', basename='categoria', viewset=CategoriaApiViewSet)

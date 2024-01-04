@@ -39,7 +39,7 @@ class Usuario(models.Model):
 
 class Producto(models.Model):
     nombre_producto = models.CharField(max_length=80)
-    precio_producto = models.DecimalField(max_digits=10, decimal_places=2)
+    precio_producto = models.DecimalField(max_digits=10, decimal_places=0)
     descripcion_producto = models.TextField()
     estado_producto = models.ForeignKey('Estado', related_name='productos', on_delete=models.CASCADE)
     categoria = models.ForeignKey('Categoria', related_name='productos', on_delete=models.CASCADE)
