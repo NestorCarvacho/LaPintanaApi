@@ -1,4 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.generics import ListAPIView
 from post.models import *
 from post.api.serializers import *
 from rest_framework.response import Response
@@ -39,7 +40,7 @@ class DetallePublicacionViewSet(ModelViewSet):
 @api_view(['GET'])
 def DetallePublicacion(request):
     publicaciones = Publicacion.objects.all()
-    serializer = PublicacionSerializer(publicaciones, many=True)
+    serializer = DetallePublicacionSerializer(publicaciones, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -56,3 +57,7 @@ def DetalleProducto2(request, id):
         return Response(serializer.data)
     except Producto.DoesNotExist:
         return Response({"error": "Producto not found"})
+
+class DetallePublicacionView(ListAPIView):
+    queryset = Publicacion.objects.all()
+    serializer_class = DetallePublicacionSerializer

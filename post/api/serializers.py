@@ -27,17 +27,17 @@ class UsuariosSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ProductoSerializer(serializers.ModelSerializer):
-    estado = serializers.SerializerMethodField()
-    categoria = serializers.SerializerMethodField()
-    disponibilidad = serializers.SerializerMethodField()
-    tipoPublicacion = serializers.SerializerMethodField()
+    estado_producto = EstadoSerializer()
+    categoria = CategoriaSerializer()
+    disponibilidad = DisponibilidadSerializer()
+    TipoPublicacion = TipoPublicacionSerializer()
     
 
     class Meta:
         model = Producto
-        fields = ['id','nombre_producto','precio_producto','descripcion_producto','estado','categoria','tipoPublicacion','disponibilidad']
+        fields = ['id','nombre_producto','precio_producto','descripcion_producto','estado_producto','categoria','TipoPublicacion','disponibilidad']
 
-    def get_producto(self, obj):
+'''    def get_producto(self, obj):
         return obj.Producto.nombre_producto if obj.Producto else None
 
     def get_usuario(self, obj):
@@ -53,12 +53,12 @@ class ProductoSerializer(serializers.ModelSerializer):
         return obj.TipoPublicacion.descripcion_TipoPublicacion if obj.TipoPublicacion else None
 
     def get_disponibilidad(self, obj):
-        return obj.disponibilidad.descripcion_disponibilidad if obj.disponibilidad else None
+        return obj.disponibilidad.descripcion_disponibilidad if obj.disponibilidad else None'''
 
 
 class PublicacionSerializer(serializers.ModelSerializer):
-    producto = serializers.SerializerMethodField()
-    usuario = serializers.SerializerMethodField()
+    producto = ProductoSerializer()
+    usuario = UsuariosSerializer()
 
     class Meta:
         model = Publicacion
@@ -73,6 +73,9 @@ class PublicacionSerializer(serializers.ModelSerializer):
 
 
 class DetallePublicacionSerializer(serializers.ModelSerializer):
+    Producto = ProductoSerializer()
+    usuario = UsuariosSerializer()
+
     class Meta:
         model = Publicacion
-        fields = '__all__'
+        fields = ['fecha_publicacion', 'usuario', 'Producto']

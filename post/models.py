@@ -50,7 +50,7 @@ class Producto(models.Model):
         return self.nombre_producto
         
 class Publicacion(models.Model):
-    fecha_publicacion = models.DateField(default=timezone.now().date)
+    fecha_publicacion = models.DateTimeField(auto_now_add=True)
     Producto = models.ForeignKey('Producto', related_name='publicaciones', on_delete=models.CASCADE)
     usuario = models.ForeignKey('Usuario', related_name='publicaciones', on_delete=models.CASCADE)
     
