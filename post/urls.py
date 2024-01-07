@@ -3,6 +3,8 @@ from rest_framework import routers
 from post.api.views import *
 from post.api.serializers import *
 
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 router = routers.DefaultRouter()
 router.register('estado', EstadoApiViewSet)
 router.register('categoria', CategoriaApiViewSet)
@@ -19,5 +21,7 @@ urlpatterns = [
     path('detalleProducto', DetalleProducto, name='detalleProducto'),
     path('detalleProducto/<int:id>', DetalleProducto2, name='detalleProducto'),
     path('detalle-publicacion/', DetallePublicacionView.as_view(), name='detalle_publicacion'),
-    path('login/', login_view, name='login_view')
+    path('register/', RegisterUser.as_view(), name='register'),
+    path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

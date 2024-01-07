@@ -3,11 +3,18 @@ from rest_framework.generics import ListAPIView
 from post.models import *
 from post.api.serializers import *
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
 from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+
+
+from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
+from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 class EstadoApiViewSet(ModelViewSet):
     serializer_class = EstadoSerializer
@@ -67,19 +74,33 @@ class DetallePublicacionView(ListAPIView):
     serializer_class = DetallePublicacionSerializer
     
     
-@csrf_exempt
-@require_POST
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+@permission_classes([AllowAny])
+class RegisterUser(APIView):
+    def post(self, request):
+        username = request.data.get('username')
+        password = request.data.get('password')
+        email = request.data.get('email')
 
-        if user is not None:
-            login(request, user)
-            return JsonResponse({'success': True, 'message': 'Login successful'})
-        else:
-            return JsonResponse({'success': False, 'error': 'Invalid credentials'})
+        if not username or not password or not email:
+            return Response({'error': 'Provide username, password, and email.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+        user = User.objects.create_user(username=username, password=password, email=email)
+        # Additional logic for user creation
 
+        return Response({'message': 'User registered successfully.'}, status=status.HTTP_201_CREATED)
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        refresh_token = response.data['refresh']
+        access_token = response.data['access']
+
+        user = self.user
+        return Response({
+            'user_id': user.id,
+            'username': user.username,
+            'access_token': access_token,
+            'refresh_token': refresh_token,
+        })
