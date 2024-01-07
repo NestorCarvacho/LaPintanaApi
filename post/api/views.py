@@ -4,6 +4,10 @@ from post.models import *
 from post.api.serializers import *
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from django.contrib.auth import authenticate, login
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 class EstadoApiViewSet(ModelViewSet):
     serializer_class = EstadoSerializer
@@ -61,3 +65,21 @@ def DetalleProducto2(request, id):
 class DetallePublicacionView(ListAPIView):
     queryset = Publicacion.objects.all()
     serializer_class = DetallePublicacionSerializer
+    
+    
+@csrf_exempt
+@require_POST
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return JsonResponse({'success': True, 'message': 'Login successful'})
+        else:
+            return JsonResponse({'success': False, 'error': 'Invalid credentials'})
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+

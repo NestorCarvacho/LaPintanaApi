@@ -1,7 +1,19 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
+from apilapintana import settings
+
 # Create your models here.  
+
+class Usuario(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    address = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=15)
+
+    def __str__(self):
+        return self.user.username
+
 class Estado(models.Model):
     descripcion_estado = models.CharField(max_length=80)
     def __str__(self):
@@ -21,21 +33,7 @@ class Disponibilidad(models.Model):
     descripcion_disponibilidad = models.CharField(max_length=80)
     def __str__(self):
         return self.descripcion_disponibilidad
-    
-class Usuario(models.Model):
-    run_usuario = models.IntegerField()
-    dv_usuario = models.CharField(max_length=1)
-    correo_usuario = models.CharField(max_length=80)
-    telefono_usuario = models.IntegerField()
-    direccion_usuario = models.CharField(max_length=150)
-    primer_nombre_usuario = models.CharField(max_length=80)
-    apellido_paterno_usuario = models.CharField(max_length=80)
-    apellido_materno_usuario = models.CharField(max_length=80)
-    nombre_fantasia_usuario = models.CharField(max_length=80)
-    contrasena_usuario = models.CharField(max_length=80)
-    
-    def __str__(self):
-        return str(self.run_usuario) + '-' + self.dv_usuario
+
 
 class Producto(models.Model):
     nombre_producto = models.CharField(max_length=80)

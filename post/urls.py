@@ -19,4 +19,5 @@ urlpatterns = [
     path('detalleProducto', DetalleProducto, name='detalleProducto'),
     path('detalleProducto/<int:id>', DetalleProducto2, name='detalleProducto'),
     path('detalle-publicacion/', DetallePublicacionView.as_view(), name='detalle_publicacion'),
+    path('login/', login_view, name='login_view')
 ]

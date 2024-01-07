@@ -1,6 +1,10 @@
 from rest_framework import serializers
 from post.models import *
 
+
+
+
+
 class EstadoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Estado
@@ -21,10 +25,24 @@ class TipoPublicacionSerializer(serializers.ModelSerializer):
         model = TipoPublicacion
         fields = '__all__'
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name']
+
 class UsuariosSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
+    
     class Meta:
         model = Usuario
         fields = '__all__'
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        user_instance = User.objects.create(**user_data)
+        
+        usuario_instance = Usuario.objects.create(user=user_instance, **validated_data)
+        return usuario_instance
 
 class ProductoSerializer(serializers.ModelSerializer):
     estado_producto = EstadoSerializer()
@@ -36,25 +54,6 @@ class ProductoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Producto
         fields = ['id','nombre_producto','precio_producto','descripcion_producto','estado_producto','categoria','TipoPublicacion','disponibilidad']
-
-'''    def get_producto(self, obj):
-        return obj.Producto.nombre_producto if obj.Producto else None
-
-    def get_usuario(self, obj):
-        return obj.usuario.nombre_fantasia_usuario if obj.usuario else None
-
-    def get_estado(self, obj):
-        return obj.estado_producto.descripcion_estado if obj.estado_producto else None
-
-    def get_categoria(self, obj):
-        return obj.categoria.descripcion_categoria if obj.categoria else None
-
-    def get_tipoPublicacion(self, obj):
-        return obj.TipoPublicacion.descripcion_TipoPublicacion if obj.TipoPublicacion else None
-
-    def get_disponibilidad(self, obj):
-        return obj.disponibilidad.descripcion_disponibilidad if obj.disponibilidad else None'''
-
 
 class PublicacionSerializer(serializers.ModelSerializer):
     producto = ProductoSerializer()
@@ -68,7 +67,7 @@ class PublicacionSerializer(serializers.ModelSerializer):
         return obj.Producto.nombre_producto if obj.Producto else None
 
     def get_usuario(self, obj):
-        return obj.usuario.nombre_fantasia_usuario if obj.usuario else None
+        return obj.usuario.username if obj.usuario else None
 
 
 

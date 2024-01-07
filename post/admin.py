@@ -1,7 +1,6 @@
 from django.contrib import admin
 from post.models import *
 
-
 # Register your models here.
 
 @admin.register(Estado)
@@ -21,18 +20,23 @@ class disponibilidadAdmin(admin.ModelAdmin):
     list_display = ['descripcion_disponibilidad']
     
 @admin.register(Usuario)
-class usuarioAdmin(admin.ModelAdmin):
-    list_display = ['run_usuario',
-                    'dv_usuario',
-                    'correo_usuario',
-                    'telefono_usuario',
-                    'telefono_usuario',
-                    'direccion_usuario',
-                    'primer_nombre_usuario',
-                    'apellido_paterno_usuario',
-                    'apellido_materno_usuario',
-                    'nombre_fantasia_usuario',
-                    'contrasena_usuario']
+class UsuarioAdmin(admin.ModelAdmin):
+    list_display = ['id', 'nombre_usuario', 'numero_telefono', 'correo_electronico', 'nombre_completo', 'usuario']
+
+    def nombre_usuario(self, obj):
+        return obj.user.username
+
+    def numero_telefono(self, obj):
+        return obj.phone_number
+
+    def correo_electronico(self, obj):
+        return obj.user.email
+
+    def nombre_completo(self, obj):
+        return f"{obj.user.first_name} {obj.user.last_name}"
+
+    def usuario(self, obj):
+        return obj.user
 
 @admin.register(Producto)
 class productoAdmin(admin.ModelAdmin):
